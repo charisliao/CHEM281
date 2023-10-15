@@ -28,6 +28,14 @@ private:
   unsigned long end_time;
 };
 
+Dispatcher::Dispatcher(unsigned int n, unsigned int t)
+{
+  numberOfRequests = n;
+  time_interval = t;
+  active_requests = 0;
+  end_time = get_current_time_in_secs() + time_interval;
+}
+
 void
 Dispatcher::dispatch_requests(unsigned long delay, unsigned int request_count)
 {
