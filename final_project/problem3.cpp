@@ -49,10 +49,11 @@ double E_left_to_right(double k, int n) {
             sum += 1.0;
         }
         else {
-            sum -= (pow(doubleFactorial(2 * i - 1) / doubleFactorial(2 * i), 2) * (pow(k, 2 * i) / 2 * i - 1));
+            sum -= (pow(doubleFactorial(2 * i - 1) / doubleFactorial(2 * i), 2) * (pow(k, 2 * i) / (2 * i - 1)));
+            
         }
     }
-    return 0.5 * sum;
+    return M_PI / 2 * sum;
 }
 
 /**
@@ -72,10 +73,10 @@ double E_right_to_left(double k, int n) {
             sum += 1.0;
         }
         else {
-            sum -= (pow(doubleFactorial(2 * i - 1) / doubleFactorial(2 * i), 2) * (pow(k, 2 * i) / 2 * i - 1));
+            sum -= (pow(doubleFactorial(2 * i - 1) / doubleFactorial(2 * i), 2) * (pow(k, 2 * i) / (2 * i - 1)));
         }
     }
-    return 0.5 * sum;
+    return M_PI / 2 * sum ;
 }
 
 int main() {
@@ -84,7 +85,7 @@ int main() {
     // PROBLEM 3a. 
     cout << "PROBLEM 3a." << endl;
     double k = sqrt(2) / 2;
-    int n = 58;
+    int n = 50;
     double E = E_left_to_right(k, n);
     double length = estimateQuarterArcLength(E);
     cout << "The length of the quarter arc is (left to right): " << length << endl;
@@ -95,13 +96,13 @@ int main() {
     // PROBLEM 3b.
     cout << "PROBLEM 3b." << endl;
     k = sqrt(2) / 2;
-    n = 58;
+    n = 50;
     E = E_right_to_left(k, n);
     length = estimateQuarterArcLength(E);
     cout << "The length of the quarter arc is (right to left): " << length << endl;
     
     cout << endl;
-    cout << "After different trials, I found that the number of terms to use in the E(k) series is 58, because it gives the most accurate result (pi / 2)." << endl;
+    cout << "After different trials, I found that was n goes larger, the result converges to 1.91." << endl;
     return 0;
 
 }

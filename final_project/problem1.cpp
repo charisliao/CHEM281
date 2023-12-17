@@ -42,8 +42,8 @@ int whosTheLuckyOne(int num_participants, int m) {
 }
 
 int main() {
-    int num_participants = 10;
-    int m = 3;
+    int num_participants = 9995;
+    int m = 500;
     int winner = whosTheLuckyOne(num_participants, m);
     cout << "The winner is: " << winner << endl;
     return 0;

@@ -41,9 +41,11 @@ using namespace std;
 struct Job {
     int job_num;
     int num_dependencies;
+    bool processed;
 };
 
 // function to schedule the execution of the jobs
+//  and print job numbers in the order they are executed
 void scheduleJobs(vector<vector<int>> dependencies) {
     // create a vector of jobs
     vector<Job> jobs;
@@ -51,6 +53,7 @@ void scheduleJobs(vector<vector<int>> dependencies) {
         Job job;
         job.job_num = i;
         job.num_dependencies = dependencies[i].size();
+        job.processed = false;
         jobs.push_back(job);
     }
 
@@ -68,29 +71,35 @@ void scheduleJobs(vector<vector<int>> dependencies) {
         Job active_job = ready_queue.front();
         ready_queue.pop();
 
+        // print the job number
+        cout << active_job.job_num << " ";
+
+        active_job.processed = true;
         // remove 1 dependency from every job that depends on this job
         for (int i = 0; i < jobs.size(); i++) {
             for (int j = 0; j < dependencies[i].size(); j++) {
-                if (dependencies[i][j] == active_job.job_num) {
+                if (dependencies[i][j] == active_job.job_num && !jobs[i].processed) {
                     jobs[i].num_dependencies--;
+
+                    if (jobs[i].num_dependencies == 0) {
+                        ready_queue.push(jobs[i]);
+                    }
                 }
             }
         }
 
-        // delete this job
-        jobs[active_job.job_num].num_dependencies = -1;
+        // // delete this job
+        // jobs[active_job.job_num].num_dependencies = -1;
 
-        // add jobs with no dependencies to the ready queue
-        for (int i = 0; i < jobs.size(); i++) {
-            if (jobs[i].num_dependencies == 0) {
-                ready_queue.push(jobs[i]);
-            }
-        }
-
-        // print the active job
-        cout << active_job.job_num << " ";
+        // // when the dependency count for any given job reaches 0, add that job to the ready queue
+        // for (int i = 0; i < jobs.size(); i++) {
+        //     if (jobs[i].num_dependencies == 0) {
+        //         ready_queue.push(jobs[i]);
+        //     }
+        // }
     }
     cout << endl;
+    
 }
 
 int main() {
@@ -106,6 +115,20 @@ int main() {
     dependencies.push_back(job2);
     dependencies.push_back(job3);
     dependencies.push_back(job4);
+
+    // vector<vector<int>> dependencies;
+    // vector<int> job0 = {};
+    // vector<int> job1 = {0};
+    // vector<int> job2 = {1};
+    // vector<int> job3 = {1};
+    // vector<int> job4 = {2, 3};
+    // dependencies.push_back(job0);
+    // dependencies.push_back(job1);
+    // dependencies.push_back(job2);
+    // dependencies.push_back(job3);
+    // dependencies.push_back(job4);
+
+    
 
     // schedule the execution of the jobs
     scheduleJobs(dependencies);
